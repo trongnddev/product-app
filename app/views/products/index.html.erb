@@ -1,6 +1,11 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>Products</h1>
+
+<%= form_tag(products_path, method: :get) do %>
+  <%= text_field_tag :search, params[:search]%>
+  <%= submit_tag 'Search' %>
+<% end %>
 
 <table>
   <thead>
@@ -32,3 +37,7 @@
 <br>
 
 <%= link_to 'New Product', new_product_path %>
+<div id="infinite-scrolling">
+  <%= will_paginate %>
+</div>
+

@@ -21,6 +21,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [90,90]
   end 
   
+  
 
 
   def extension_white_list

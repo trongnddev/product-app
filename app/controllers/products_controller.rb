@@ -3,7 +3,11 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    @products = Product.all
+    @products = if params[:search]
+      Product.where('title LIKE ?', "%#{params[:search]}%").paginate(:page => params[:page], :per_page => 3).order("created_at DESC")
+    else
+      Product.all.paginate(:page => params[:page], :per_page => 3).order("created_at DESC")
+    end
   end
 
   # GET /products/1 or /products/1.json
@@ -64,6 +68,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:sku, :title, :price, :quantity, :image)
+      params.require(:product).permit(:sku, :title, :price, :quantity, :image,:search)
     end
 end
