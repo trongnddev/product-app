@@ -3,6 +3,9 @@ class Product < ApplicationRecord
     validates :sku, :presence => true
     validates :title, :presence => true,
                         :length => {:minimum => 5}
+    has_many :properties, dependent: :destroy
+
+    belong_to :category
   
 
                         

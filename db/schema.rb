@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_163751) do
+ActiveRecord::Schema.define(version: 2021_11_28_181358) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "sku"
@@ -22,4 +28,16 @@ ActiveRecord::Schema.define(version: 2021_11_16_163751) do
     t.string "image"
   end
 
+  create_table "properties", force: :cascade do |t|
+    t.string "color"
+    t.integer "quantity_in_stock"
+    t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "product_id", null: false
+    t.index ["product_id", "color"], name: "index_properties_on_product_id_and_color", unique: true
+    t.index ["product_id"], name: "index_properties_on_product_id"
+  end
+
+  add_foreign_key "properties", "products"
 end
