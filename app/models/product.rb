@@ -5,7 +5,7 @@ class Product < ApplicationRecord
                         :length => {:minimum => 5}
     has_many :properties, dependent: :destroy
 
-    belong_to :category
+    belongs_to :category
   
 
                         
