@@ -6,8 +6,14 @@ class Product < ApplicationRecord
     has_many :properties, dependent: :destroy
 
     belongs_to :category
-  
-
                         
   mount_uploader :image, ImageUploader
+
+  def self.search(key_word)
+    product = Product.joins(:category).where('categories.name LIKE ?', "%#{key_word}%")
+  end
+
+
 end
+
+

@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = if params[:search]
-      Product.where('title LIKE ?', "%#{params[:search]}%").paginate(:page => params[:page], :per_page => 3).order("created_at DESC")
+      Product.search(params[:search]).paginate(:page => params[:page], :per_page => 3).order("created_at DESC")
     else
       Product.all.paginate(:page => params[:page], :per_page => 3).order("created_at DESC")
     end
@@ -16,6 +16,8 @@ class ProductsController < ApplicationController
 
   # GET /products/new
   def new
+
+   
     @product = Product.new
   end
 
@@ -25,8 +27,9 @@ class ProductsController < ApplicationController
 
   # POST /products or /products.json
   def create
+    
     @product = Product.new(product_params)
-
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product, notice: "Product was successfully created." }
@@ -68,6 +71,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:sku, :title, :price, :quantity, :image,:search)
+      params.require(:product).permit(:sku, :title, :price, :quantity, :image,:search, :category_id)
     end
 end
