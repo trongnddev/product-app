@@ -11,6 +11,11 @@
     </div>
   <% end %>
 
+  <div class="field form-group">
+    <%= form.label :product%>
+    <%= form.collection_select :product_id, Product.all, :id, :title%>
+  </div>
+
   <div class="field">
     <%= form.label :color %>
     <%= form.text_field :color %>
@@ -23,7 +28,9 @@
 
   <div class="field">
     <%= form.label :image %>
-    <%= form.text_field :image %>
+    <%= form.file_field :image %>
+    <%= image_tag property.image_url.to_s %>
+    <%= form.check_box :remove_image %>Xóa ảnh
   </div>
 
   <div class="actions">

@@ -1,5 +1,6 @@
 class PropertiesController < ApplicationController
   before_action :set_property, only: %i[ show edit update destroy ]
+  add_flash_types :success, :warning, :danger, :info
 
   # GET /properties or /properties.json
   def index
@@ -37,12 +38,18 @@ class PropertiesController < ApplicationController
   # PATCH/PUT /properties/1 or /properties/1.json
   def update
     respond_to do |format|
-      if @property.update(property_params)
-        format.html { redirect_to @property, notice: "Property was successfully updated." }
-        format.json { render :show, status: :ok, location: @property }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
+      begin
+        if @property.update(property_params)
+          format.html { redirect_to @property, notice: "Property was successfully updated." }
+          format.json { render :show, status: :ok, location: @property }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @property.errors, status: :unprocessable_entity }
+        end
+      rescue
+        format.html { redirect_to request.referrer, danger: "Something went wrong" }
         format.json { render json: @property.errors, status: :unprocessable_entity }
+        
       end
     end
   end
@@ -64,6 +71,6 @@ class PropertiesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def property_params
-      params.require(:property).permit(:color, :quantity_in_stock, :image)
+      params.require(:property).permit(:color, :quantity_in_stock, :image,:product_id)
     end
 end
